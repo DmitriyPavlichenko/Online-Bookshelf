@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<h1>Hello, stranger!</h1>
+<h2 th:text="${booksList.isEmpty()} ? 'Your books list is temporary empty. Add somthing!' : 'Your books list:'"></h2>
+<table>
+    <tr th:each="book, custStat: ${booksList}">
+        <td th:text="${custStat.count}"></td>
+        <td th:text="${book.name}"></td>
+        <td th:text="${book.author == null} ? '-' : ${book.author}"></td>
+    </tr>
+</table>
+
+<br>
+<hr>
+<p>Add book:</p>
+<form method="post" th:action="@{'/add'}">
+    <label>
+        <label for="name">Book's name:</label>
+        <input id="name" type="text" name="name" >
+    </label>
+    <br>
+    <label>
+        <label for="author">Author name:</label>
+        <input id="author" type="text" name="author">
+    </label>
+    <br>
+    <input type="submit" />
+</form>
+
+<!--<span th:if="${errorMessage}"  th:text="${errorMessage}">Error</span>-->
+<div th:if="${!booksList.isEmpty()}">
+    <br><br><br>
+    <hr>
+    <p>Delete book:</p>
+    <form th:action="@{/delete/}" th:method="delete">
+        <input type="hidden" name="_method" value="delete">
+        <label>
+            <input type="text" name="index">
+        </label>
+        <input type="submit">
+    </form>
+</div>
+
+
+</body>
+</html>
